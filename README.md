@@ -5,5 +5,5 @@ As a hugh minesweeper fan, it's implemented correctly, i.e.:
     *   First pressed tile always have 0 surrounding mines
     *   Pressing a number will open all surrounding tiles if correctly flagged
 
-    ![Image](https://github.com/Stiabo/Minesweeper/blob/master/Image/Minesweeper-example-screenshot.png "Example screenshot")
+ ![Image](https://github.com/Stiabo/Minesweeper/blob/master/Image/Minesweeper-example-screenshot.PNG "Example screenshot")
     
