@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="MineSweeper.TileItemControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:MineSweeper"
+             mc:Ignorable="d" >
+
+    <Border d:DataContext="{x:Static local:TileDesignModel.Instance}">
+        <Grid>
+            <Button Style="{StaticResource MineButton}"
+                    local:IsFlaggedProperty.Value="{Binding Flagged}"
+                    Panel.ZIndex="2"
+                    Command="{Binding OpenCommand}"
+                    Visibility="{Binding Opened, Converter={local:BooleanToVisiblityConverter}}"                    
+                    >
+                <Button.InputBindings>
+                    <MouseBinding MouseAction="RightClick"
+                                    Command="{Binding FlagCommand}"
+                                    />
+                </Button.InputBindings>
+            </Button>
+            <Border BorderThickness="0.5"
+                    BorderBrush="Black"
+                    Background="Transparent"
+                    Width="25">
+                <Border.InputBindings>
+                    <MouseBinding   MouseAction="LeftClick"                                  
+                                Command="{Binding OpenSurroundingCommand}"                                   
+                                />
+                </Border.InputBindings>
+                <Grid>
+                    
+                    <TextBlock Text="{Binding Number}"
+                                Style="{StaticResource NumberText}"
+                                Foreground="{Binding Number,Converter={local:NumberToColorConverter}}"                               
+                                Visibility="{Binding Number,Converter={local:NumberToVisiblityConverter},ConverterParameter=true}"/>
+                    <TextBlock Text="{StaticResource FontAwesomeBombIcon}"
+                                FontFamily="{StaticResource FontAwesome}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Visibility="{Binding Number,Converter={local:NumberToVisiblityConverter}}"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

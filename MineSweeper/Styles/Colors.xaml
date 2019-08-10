@@ -1,0 +1,65 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MineSweeper">
+    
+    <Color x:Key="BackgroundLight">#042A2B</Color>
+    <SolidColorBrush x:Key="BackgroundLightBrush" Color="{StaticResource BackgroundLight}" />
+
+    <Color x:Key="WordBlue">#0000ff</Color>
+    <SolidColorBrush x:Key="WordBlueBrush" Color="{StaticResource WordBlue}" />
+
+    <Color x:Key="Flag">#990000</Color>
+    <SolidColorBrush x:Key="FlagBrush" Color="{StaticResource Flag}" />
+
+    <Color x:Key="NumberBlue">#3584CE</Color>
+    <SolidColorBrush x:Key="NumberBlueBrush" Color="{StaticResource NumberBlue}" />
+
+    <Color x:Key="NumberGreen">#0C8E3C</Color>
+    <SolidColorBrush x:Key="NumberGreenBrush" Color="{StaticResource NumberGreen}" />
+
+    <Color x:Key="NumberRed">#e80000</Color>
+    <SolidColorBrush x:Key="NumberRedBrush" Color="{StaticResource NumberRed}" />
+
+    <Color x:Key="NumberPurple">#A077FF</Color>
+    <SolidColorBrush x:Key="NumberPurpleBrush" Color="{StaticResource NumberPurple}" />
+
+    <Color x:Key="NumberDarkRed">#FFC6A3</Color>
+    <SolidColorBrush x:Key="NumberDarkRedBrush" Color="{StaticResource NumberDarkRed}" />
+
+    <Color x:Key="NumberCyan">#00918a</Color>
+    <SolidColorBrush x:Key="NumberCyanBrush" Color="{StaticResource NumberCyan}" />
+
+    <Color x:Key="NumberBlack">#EFF8FF</Color>
+    <SolidColorBrush x:Key="NumberBlackBrush" Color="{StaticResource NumberBlack}" />
+
+    <Color x:Key="NumberGray">#B1B7BC</Color>
+    <SolidColorBrush x:Key="NumberGrayBrush" Color="{StaticResource NumberGray}" />
+
+    <Color x:Key="TileSurface">#adadad</Color>
+    <SolidColorBrush x:Key="TileSurfaceBrush" Color="{StaticResource TileSurface}" />
+
+    <Color x:Key="TileLeft">#b7b7b7</Color>
+    <SolidColorBrush x:Key="TileLeftBrush" Color="{StaticResource TileLeft}" />
+    
+    <Color x:Key="TileTop">#d3d3d3</Color>
+    <SolidColorBrush x:Key="TileTopBrush" Color="{StaticResource TileTop}" />
+
+    <Color x:Key="TileRight">#6d6d6d</Color>
+    <SolidColorBrush x:Key="TileRightBrush" Color="{StaticResource TileRight}" />
+
+    <Color x:Key="TileBottom">#4c4c4c</Color>
+    <SolidColorBrush x:Key="TileBottomBrush" Color="{StaticResource TileBottom}" />
+    
+    <Color x:Key="MenuButton">#f7fbff</Color>
+    <SolidColorBrush x:Key="MenuButtonBrush" Color="{StaticResource MenuButton}" />
+
+    <Color x:Key="GameBoard">#232833</Color>
+    <SolidColorBrush x:Key="GameBoardBrush" Color="{StaticResource GameBoard}" />
+
+    <Color x:Key="GameBoardTop">#617487</Color>
+    <SolidColorBrush x:Key="GameBoardTopBrush" Color="{StaticResource GameBoardTop}" />
+
+    <Color x:Key="YellowSmiley">#CECB2B</Color>
+    <SolidColorBrush x:Key="YellowSmileyBrush" Color="{StaticResource YellowSmiley}" />
+
+</ResourceDictionary>
