@@ -345,11 +345,15 @@ namespace MineSweeper
         {
             //Get data from file
             string path = "..\\..\\JSON\\GameInstance.json";
-            string output = File.ReadAllText(path);
+            if (File.Exists(path))
+            {
+                string output = File.ReadAllText(path);
 
-            //Deserialize from JSON to .NET
-            ContinueGame = false;
-            GameInstance = JsonConvert.DeserializeObject<BoardViewModel>(output);
+                //Deserialize from JSON to .NET
+                ContinueGame = false;
+                GameInstance = JsonConvert.DeserializeObject<BoardViewModel>(output);
+
+            }
 
         }
 
