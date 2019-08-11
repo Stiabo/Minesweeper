@@ -21,8 +21,7 @@ namespace MineSweeper
         /// </summary>
         public BoardDesignModel()
         {
-
-
+            
         }
 
 

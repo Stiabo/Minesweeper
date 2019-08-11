@@ -8,18 +8,21 @@
 
     <Border d:DataContext="{x:Static local:TileDesignModel.Instance}">
         <Grid>
+            <!-- Tile button on top -->
             <Button Style="{StaticResource MineButton}"
                     local:IsFlaggedProperty.Value="{Binding Flagged}"
                     Panel.ZIndex="2"
                     Command="{Binding OpenCommand}"
                     Visibility="{Binding Opened, Converter={local:BooleanToVisiblityConverter}}"                    
                     >
+                <!--Right mouse click, i.e. Flagging -->
                 <Button.InputBindings>
-                    <MouseBinding MouseAction="RightClick"
-                                    Command="{Binding FlagCommand}"
+                    <MouseBinding   MouseAction="RightClick"
+                                    Command="{Binding FlagCommand}"                                   
                                     />
                 </Button.InputBindings>
             </Button>
+            <!-- Number under -->
             <Border BorderThickness="0.5"
                     BorderBrush="Black"
                     Background="Transparent"

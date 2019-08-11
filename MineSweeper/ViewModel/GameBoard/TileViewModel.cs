@@ -79,7 +79,7 @@ namespace MineSweeper
         /// </summary>
         public void FlagTile()
         {
-            if (!Opened)
+            if (!Opened && !BoardViewModel.FirstTile)
             {                
                 Flagged ^=true;
                 if (Flagged) BoardViewModel.Mines--;
