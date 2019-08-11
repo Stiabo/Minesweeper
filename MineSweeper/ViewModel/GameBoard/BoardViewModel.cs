@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -139,6 +140,11 @@ namespace MineSweeper
         /// </summary>
         public static int OpenedTiles { get; set; }
 
+        /// <summary>
+        /// True is it is a new game
+        /// </summary>
+        public static bool NewGame { get; set; }
+
         #endregion
 
         #region Commands
@@ -151,48 +157,58 @@ namespace MineSweeper
 
         public BoardViewModel()
         {
-            // Init 
-            switch(GameDifficulty)
+            if (NewGame)
             {
-                case Difficulty.Easy:    
-                    Rows = 8;
-                    Columns = 10;
-                    Mines = 12;
-                    break;
-                case Difficulty.Medium:    
-                    Rows = 12;
-                    Columns = 16;
-                    Mines = 36;
-                    break;
-                case Difficulty.Hard:     
-                    Rows = 16;
-                    Columns = 30;
-                    Mines = 99;                    
-                    break;
-                default:
-                    break;
+                // Init 
+                switch (GameDifficulty)
+                {
+                    case Difficulty.Easy:
+                        Rows = 8;
+                        Columns = 10;
+                        Mines = 12;
+                        break;
+                    case Difficulty.Medium:
+                        Rows = 12;
+                        Columns = 16;
+                        Mines = 36;
+                        break;
+                    case Difficulty.Hard:
+                        Rows = 16;
+                        Columns = 30;
+                        Mines = 99;
+                        break;
+                    default:
+                        break;
+                }
+                StartingMines = Mines;
+                OpenedTiles = 0;
+
+                // Set up timer
+                DisplayTime = 0;
+                Time = new DispatcherTimer();
+
+                Tiles = new List<TileViewModel>();
+                TilesHolder = new int[Rows + 2, Columns + 2];
+
+                InitiateBlankBoard();
+
+                FirstTile = true;
+                GameLost = false;
+                GameWon = false;
+                GameRunning = true;               
             }
-            StartingMines = Mines;
-            OpenedTiles = 0;
-
-            // Set up timer
-            DisplayTime = 0;
-            Time = new DispatcherTimer();
-            Time.Tick += Time_Tick;
-            Time.Interval = new TimeSpan(0, 0, 1);
-
-            Tiles = new List<TileViewModel>();
-            TilesHolder = new int[Rows + 2, Columns + 2];
-
-            InitiateBlankBoard();
-
-            FirstTile = true;
-            GameLost = false;
-            GameWon = false;
-            GameRunning = true;
-
+            //Continue Game
+            else
+            {              
+                
+            }
             // Generate commands
             RestartCommand = new RelayCommand(Restart);
+
+            // Setup timer
+            
+            Time.Tick += Time_Tick;
+            Time.Interval = new TimeSpan(0, 0, 1);
         }
 
         #endregion
@@ -200,7 +216,7 @@ namespace MineSweeper
         #region Command Methods
 
         public void Restart()
-        {                      
+        {
             IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Menu);
         }
 
@@ -212,6 +228,9 @@ namespace MineSweeper
             DisplayTime++;
         }
 
+        /// <summary>
+        /// Places all mines on game board, excluding numbers around opening tile
+        /// </summary>
         public static void PlaceMines()
         {
             
@@ -248,6 +267,10 @@ namespace MineSweeper
             }
         }
         
+        /// <summary>
+        /// Searches for mines, and increment all surrounding non-mine tiles by 1 
+        /// Improved run time compared to counting surrounding mines of all tiles 
+        /// </summary>
         public static void PlaceNumbers()
         {
             // Calculate numbers into TilesHolder
@@ -272,22 +295,11 @@ namespace MineSweeper
             }
         }
 
-        public int CountMines(int row, int col)
-        {
-            int mines = 0;
-
-            for (int i = -1; i < 2; i++)
-            {
-                for (int j = -1; j < 2; j++)
-                {
-                    if (TilesHolder[row + i, col + j] == -1)
-                        mines++;
-                }
-            }
-
-            return mines;
-        }
-
+        /// <summary>
+        /// Increment all non-mine tiles by 1
+        /// </summary>
+        /// <param name="row">Tile row</param>
+        /// <param name="col">Tile Column</param>
         public static void AddNumbers(int row, int col)
         {
             for (int i = -1; i < 2; i++)
@@ -303,7 +315,6 @@ namespace MineSweeper
         /// <summary>
         /// Initiate a blank board
         /// </summary>
-        /// <param name=""></param>
         public void InitiateBlankBoard()
         {
             for(int i = 0; i < Rows * Columns; i++)
@@ -311,7 +322,6 @@ namespace MineSweeper
                 Tiles.Add(new TileViewModel { Number = 0, Index = i, Opened = false });
             }
         }
-
 
         /// <summary>
         /// Checks if the given offset tile is inside the board
@@ -333,7 +343,46 @@ namespace MineSweeper
             return insideBoard;
         }
 
-        #endregion
 
+        /*
+         * 
+         * Attempt to store and restore class for use with Continue function
+         * Not working currently because of difficulties with static members.
+         * 
+        public void StoreAllData()
+        {
+            //Convert a copy of current instance to Json format
+            string output = JsonConvert.SerializeObject(DeepCopy());
+            
+            //Save output to file
+
+
+
+
+        }
+        
+        public void RestoreAllData()
+        {
+            //Get data from file
+            string output = "Get from JSON file";
+
+            //Deserialize from JSON to .NET
+            BoardViewModel deserializedProduct = JsonConvert.DeserializeObject<BoardViewModel>(output);
+
+            //Put data into class
+
+        }
+
+        public BoardViewModel DeepCopy()
+        {
+            BoardViewModel copy = (BoardViewModel)this.MemberwiseClone();
+
+            //Problem with deep copying static members...
+
+            return copy;
+        }
+        */
+
+        #endregion
     }
 }

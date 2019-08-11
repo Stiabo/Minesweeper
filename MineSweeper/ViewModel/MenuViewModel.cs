@@ -41,6 +41,11 @@ namespace MineSweeper
         public ICommand NewGameCommand { get; set; }
 
         /// <summary>
+        /// Command to Continue Game
+        /// </summary>
+        public ICommand ContinueCommand { get; set; }
+
+        /// <summary>
         /// Hides the new game menu
         /// </summary>
         public ICommand HideNewGameCommand { get; set; }
@@ -63,6 +68,7 @@ namespace MineSweeper
 
             HideNewGameCommand = new RelayCommand(HideNewGame);
 
+            ContinueCommand = new RelayCommand(ContinueButton);
         }
 
         #endregion
@@ -79,6 +85,14 @@ namespace MineSweeper
             NewGameVisible ^= true;
         }
 
+        public void ContinueButton()
+        {
+            //BoardViewModel.NewGame = false;
+
+            //IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Board);
+
+        }
+
         /// <summary>
         /// Starts the game
         /// </summary>
@@ -87,6 +101,7 @@ namespace MineSweeper
         {
             // Go to game
             BoardViewModel.GameDifficulty = difficulty;
+            BoardViewModel.NewGame = true;
 
             IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Board);
 
