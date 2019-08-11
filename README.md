@@ -9,6 +9,6 @@ As a "huge" minesweeper fan, it's implemented correctly, i.e.:
  ![Image](https://github.com/Stiabo/Minesweeper/blob/master/Image/Minesweeper-example-screenshot.PNG "Example screenshot")
     
 TODO:  
-* High Score 
-* Autosave/Continue feature
+* High Score   
+* ~~Autosave/Continue feature~~ 11-Aug-19
 * Custom board size
