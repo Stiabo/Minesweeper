@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
@@ -9,6 +10,7 @@ namespace MineSweeper
     /// <summary>
     /// View model for one induvidual tile
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public class TileViewModel : BaseViewModel
     {
 
@@ -17,22 +19,26 @@ namespace MineSweeper
         /// <summary>
         /// If the tile is flagged
         /// </summary>
+        [JsonProperty]
         public bool Flagged { get; set; }
 
         /// <summary>
         /// Number of mines next to this tile.
         /// -1 indicates it holds a mine??
         /// </summary>
+        [JsonProperty]
         public int Number { get; set; }
 
         /// <summary>
         /// The index of the tile
         /// </summary>
+        [JsonProperty]
         public int Index { get; set; }
 
         /// <summary>
         /// If the tile has been opened or not
         /// </summary>
+        [JsonProperty]
         public bool Opened { get; set; }
 
 
@@ -79,11 +85,13 @@ namespace MineSweeper
         /// </summary>
         public void FlagTile()
         {
-            if (!Opened && !BoardViewModel.FirstTile)
+            
+            if (!Opened && !BoardViewModel.GameInstance.FirstTile)
             {                
                 Flagged ^=true;
-                if (Flagged) BoardViewModel.Mines--;
-                else BoardViewModel.Mines++;
+                if (Flagged) BoardViewModel.GameInstance.Mines--;
+                else BoardViewModel.GameInstance.Mines++;
+
             }
         }
 
@@ -93,23 +101,25 @@ namespace MineSweeper
         public void OpenTile()
         {
             //First tile
-            if (BoardViewModel.FirstTile)
+            if (BoardViewModel.GameInstance.FirstTile)
             {                
-                BoardViewModel.StartingTile = Index;
-                BoardViewModel.FirstTile = false;
+                BoardViewModel.GameInstance.StartingTile = Index;
+                BoardViewModel.GameInstance.FirstTile = false;
 
                 // Distribute randomly all mines
-                BoardViewModel.PlaceMines();
+                BoardViewModel.GameInstance.PlaceMines();
 
                 // Place Numbers into 
-                BoardViewModel.PlaceNumbers();
+                BoardViewModel.GameInstance.PlaceNumbers();
 
-                BoardViewModel.Time.Start();
+                BoardViewModel.GameInstance.Time.Start();
+               
             }
 
             //Open tile
             if (!Flagged)
             {
+
                 Opened = true;
                 //Open all tiles around opened tile except flagged if 0
                 if (Number == 0)
@@ -120,23 +130,23 @@ namespace MineSweeper
                 if (Number == -1)
                 {
                     //Game lost
-                    BoardViewModel.Time.Stop();
-                    BoardViewModel.GameRunning = false;
-                    BoardViewModel.GameLost = true;
+                    BoardViewModel.GameInstance.Time.Stop();
+                    BoardViewModel.GameInstance.GameRunning = false;
+                    BoardViewModel.GameInstance.GameLost = true;
                 }
                 else
                 {
-                    BoardViewModel.OpenedTiles++;
+                    BoardViewModel.GameInstance.OpenedTiles++;
                     
-                    if(BoardViewModel.OpenedTiles == (BoardViewModel.Rows * BoardViewModel.Columns - BoardViewModel.StartingMines))
+                    if(BoardViewModel.GameInstance.OpenedTiles == (BoardViewModel.GameInstance.Rows * BoardViewModel.GameInstance.Columns - BoardViewModel.GameInstance.StartingMines))
                     {
                         //Game won
-                        BoardViewModel.Time.Stop();
-                        BoardViewModel.GameRunning = false;
-                        BoardViewModel.GameWon = true;
+                        BoardViewModel.GameInstance.Time.Stop();
+                        BoardViewModel.GameInstance.GameRunning = false;
+                        BoardViewModel.GameInstance.GameWon = true;
                     }
                 }
-                
+
             }
 
         }
@@ -153,11 +163,11 @@ namespace MineSweeper
             {
                 for (int j = -1; j < 2; j++)
                 {
-                    index = Index + j + BoardViewModel.Columns * i;
+                    index = Index + j + BoardViewModel.GameInstance.Columns * i;
 
-                    if (BoardViewModel.InsideBoard(i, j, Index))
+                    if (BoardViewModel.GameInstance.InsideBoard(i, j, Index))
                     {
-                        if (BoardViewModel.Tiles[index].Flagged) surroundingFlags++;
+                        if (BoardViewModel.GameInstance.Tiles[index].Flagged) surroundingFlags++;
                     }
                     
                 }
@@ -170,31 +180,31 @@ namespace MineSweeper
                 {
                     for (int j = -1; j < 2; j++)
                     {
-                        index = Index + j + BoardViewModel.Columns * i;
+                        index = Index + j + BoardViewModel.GameInstance.Columns * i;
                         //Open tile
-                        if (BoardViewModel.InsideBoard(i, j,Index))
+                        if (BoardViewModel.GameInstance.InsideBoard(i, j,Index))
                         {
-                            if (!BoardViewModel.Tiles[index].Flagged && !BoardViewModel.Tiles[index].Opened)
+                            if (!BoardViewModel.GameInstance.Tiles[index].Flagged && !BoardViewModel.GameInstance.Tiles[index].Opened)
                             {
-                                BoardViewModel.Tiles[index].Opened = true;
-                                if (BoardViewModel.Tiles[index].Number == -1)
+                                BoardViewModel.GameInstance.Tiles[index].Opened = true;
+                                if (BoardViewModel.GameInstance.Tiles[index].Number == -1)
                                 {
                                     //Game lost
-                                    BoardViewModel.Time.Stop();
-                                    BoardViewModel.GameRunning = false;
-                                    BoardViewModel.GameLost = true;
+                                    BoardViewModel.GameInstance.Time.Stop();
+                                    BoardViewModel.GameInstance.GameRunning = false;
+                                    BoardViewModel.GameInstance.GameLost = true;
                                 }
 
-                                if (BoardViewModel.Tiles[index].Number == 0) BoardViewModel.Tiles[index].OpenSurrounding();
+                                if (BoardViewModel.GameInstance.Tiles[index].Number == 0) BoardViewModel.GameInstance.Tiles[index].OpenSurrounding();
 
-                                BoardViewModel.OpenedTiles++;
+                                BoardViewModel.GameInstance.OpenedTiles++;
 
-                                if (BoardViewModel.OpenedTiles == (BoardViewModel.Rows * BoardViewModel.Columns - BoardViewModel.StartingMines))
+                                if (BoardViewModel.GameInstance.OpenedTiles == (BoardViewModel.GameInstance.Rows * BoardViewModel.GameInstance.Columns - BoardViewModel.GameInstance.StartingMines))
                                 {
                                     //Game won
-                                    BoardViewModel.Time.Stop();
-                                    BoardViewModel.GameRunning = false;
-                                    BoardViewModel.GameWon = true;
+                                    BoardViewModel.GameInstance.Time.Stop();
+                                    BoardViewModel.GameInstance.GameRunning = false;
+                                    BoardViewModel.GameInstance.GameWon = true;
                                 }
                                 
                             }                                               

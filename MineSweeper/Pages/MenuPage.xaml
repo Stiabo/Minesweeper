@@ -27,7 +27,7 @@
                     />
             <Button 
                     Style="{StaticResource MenuButton}"
-                    Content="-Continue-"
+                    Content="Continue"
                     Grid.Column="1"
                     Command="{Binding ContinueCommand}"
                     />

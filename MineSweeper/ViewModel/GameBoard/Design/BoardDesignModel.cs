@@ -21,7 +21,13 @@ namespace MineSweeper
         /// </summary>
         public BoardDesignModel()
         {
-            
+            Instance.Rows = 10;
+            Instance.Columns = 8;
+
+            Instance.Tiles = new List<TileViewModel>();
+            Instance.TilesHolder = new int[Rows + 2, Columns + 2];
+
+            Instance.InitiateBlankBoard();
         }
 
 

@@ -87,9 +87,10 @@ namespace MineSweeper
 
         public void ContinueButton()
         {
-            //BoardViewModel.NewGame = false;
+            BoardViewModel.ContinueGame = true;
+            BoardViewModel.NewGame = false;
 
-            //IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Board);
+            IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Board);
 
         }
 

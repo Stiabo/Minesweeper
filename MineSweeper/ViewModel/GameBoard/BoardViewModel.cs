@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
@@ -13,137 +14,113 @@ namespace MineSweeper
     /// <summary>
     /// 
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public class BoardViewModel : BaseViewModel
     {
-        #region Private Properties
-        public static event PropertyChangedEventHandler StaticPropertyChanged;
-
-        private static void OnStaticPropertyChanged(string propertyName)
-        {
-            StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private static int _mines;
-
-        private static bool _gameRunning;
-
-        private static bool _gameLost;
-
-        private static bool _gameWon;
-        #endregion
 
         #region Public Properties
 
         /// <summary>
         /// The array of tiles used for binding
         /// </summary>
-        public static List<TileViewModel> Tiles { get; set; }
+        [JsonProperty]
+        public List<TileViewModel> Tiles { get; set; }
 
         /// <summary>
         /// The 2d array of tiles
         /// </summary>
-        public static int[,] TilesHolder { get; set; }
+        public int[,] TilesHolder { get; set; }
 
 
         /// <summary>
         /// How many rows of tiles
         /// </summary>
-        public static int Rows { get; set; }
+        [JsonProperty]
+        public int Rows { get; set; }
 
         /// <summary>
         /// How many columns of tiles
         /// </summary>
-        public static int Columns { get; set; }
+        [JsonProperty]
+        public int Columns { get; set; }
 
         /// <summary>
         /// Time after game start
         /// </summary>
-        public static DispatcherTimer Time { get; set; }
+        public DispatcherTimer Time { get; set; }
 
         /// <summary>
         /// Visual display time
         /// </summary>
-        public int DisplayTime { get; set; }
+        [JsonProperty]
+        public int DisplayTime { get; set; } = 0;
 
         /// <summary>
         /// Number of mines remaining
         /// </summary>
-        public static int Mines {
-            get { return _mines; }
-            set
-            {
-                _mines = value;
-                OnStaticPropertyChanged("Mines");
-            }
-        }
+        [JsonProperty]
+        public int Mines { get; set; }
 
         /// <summary>
         /// Number of starting mines
         /// </summary>
-        public static int StartingMines { get; set; }
+        [JsonProperty]
+        public int StartingMines { get; set; }
 
         /// <summary>
         /// True if the game is running, false when game lost or finished
         /// </summary>
-        public static bool GameRunning {
-            get { return _gameRunning; }
-            set
-            {
-                _gameRunning = value;
-                OnStaticPropertyChanged("GameRunning");
-            }
-        }
+        [JsonProperty]
+        public bool GameRunning { get; set; } = true;
 
         /// <summary>
         /// True if the game is lost
         /// </summary>
-        public static bool GameLost
-        {
-            get { return _gameLost; }
-            set
-            {
-                _gameLost = value;
-                OnStaticPropertyChanged("GameLost");
-            }
-        }
+        [JsonProperty]
+        public bool GameLost { get; set; } = false;
 
         /// <summary>
         /// True if the game is Won
         /// </summary>
-        public static bool GameWon
-        {
-            get { return _gameWon; }
-            set
-            {
-                _gameWon = value;
-                OnStaticPropertyChanged("GameWon");
-            }
-        }
+        [JsonProperty]
+        public bool GameWon { get; set; } = false;
 
         /// <summary>
         /// True if the first tile is not pressed
         /// </summary>
-        public static bool FirstTile { get; set; } = true;
+        [JsonProperty]
+        public bool FirstTile { get; set; } = true;
 
         /// <summary>
         /// The first selected tile at the start of the game
         /// </summary>
-        public static int StartingTile { get; set; }
+        [JsonProperty]
+        public int StartingTile { get; set; }
 
         /// <summary>
         /// The difficulty of the game
         /// </summary>
+        [JsonProperty]
         public static Difficulty GameDifficulty { get; set; }
 
         /// <summary>
         /// Number of opened non-mine tiles
         /// </summary>
-        public static int OpenedTiles { get; set; }
+        [JsonProperty]
+        public int OpenedTiles { get; set; } = 0;
 
         /// <summary>
-        /// True is it is a new game
+        /// True if it is a new game
         /// </summary>
         public static bool NewGame { get; set; }
+
+        /// <summary>
+        /// True if you want to continue game
+        /// </summary>
+        public static bool ContinueGame { get; set; }
+
+
+        public static BoardViewModel GameInstance { get; set; }
 
         #endregion
 
@@ -156,7 +133,7 @@ namespace MineSweeper
         #region Constructor
 
         public BoardViewModel()
-        {
+        {         
             if (NewGame)
             {
                 // Init 
@@ -181,34 +158,34 @@ namespace MineSweeper
                         break;
                 }
                 StartingMines = Mines;
-                OpenedTiles = 0;
 
-                // Set up timer
-                DisplayTime = 0;
+                // Setup timer
                 Time = new DispatcherTimer();
+                Time.Tick += Time_Tick;
+                Time.Interval = new TimeSpan(0, 0, 1);
 
-                Tiles = new List<TileViewModel>();
-                TilesHolder = new int[Rows + 2, Columns + 2];
+                GameInstance = (BoardViewModel)this.MemberwiseClone();
 
-                InitiateBlankBoard();
+                GameInstance.Tiles = new List<TileViewModel>();
+                GameInstance.TilesHolder = new int[Rows + 2, Columns + 2];
 
-                FirstTile = true;
-                GameLost = false;
-                GameWon = false;
-                GameRunning = true;               
+                GameInstance.InitiateBlankBoard();
+
             }
             //Continue Game
-            else
-            {              
+            else if (ContinueGame)
+            {
                 
+                RestoreAllData();
+
+                GameInstance.Time = new DispatcherTimer();
+                GameInstance.Time.Tick += Time_Tick;
+                GameInstance.Time.Interval = new TimeSpan(0, 0, 1);
+                if (GameInstance.GameRunning) GameInstance.Time.Start();
             }
             // Generate commands
             RestartCommand = new RelayCommand(Restart);
 
-            // Setup timer
-            
-            Time.Tick += Time_Tick;
-            Time.Interval = new TimeSpan(0, 0, 1);
         }
 
         #endregion
@@ -217,6 +194,8 @@ namespace MineSweeper
 
         public void Restart()
         {
+            GameInstance.Time.Stop();
+            StoreAllData();            
             IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Menu);
         }
 
@@ -225,13 +204,13 @@ namespace MineSweeper
         #region Helper Functions
         private void Time_Tick(object sender, EventArgs e)
         {
-            DisplayTime++;
+            GameInstance.DisplayTime++;
         }
 
         /// <summary>
         /// Places all mines on game board, excluding numbers around opening tile
         /// </summary>
-        public static void PlaceMines()
+        public void PlaceMines()
         {
             
             int mines = Mines;
@@ -271,7 +250,7 @@ namespace MineSweeper
         /// Searches for mines, and increment all surrounding non-mine tiles by 1 
         /// Improved run time compared to counting surrounding mines of all tiles 
         /// </summary>
-        public static void PlaceNumbers()
+        public void PlaceNumbers()
         {
             // Calculate numbers into TilesHolder
             for (int i = 1; i < Rows + 1; i++)
@@ -300,7 +279,7 @@ namespace MineSweeper
         /// </summary>
         /// <param name="row">Tile row</param>
         /// <param name="col">Tile Column</param>
-        public static void AddNumbers(int row, int col)
+        public void AddNumbers(int row, int col)
         {
             for (int i = -1; i < 2; i++)
             {
@@ -329,7 +308,7 @@ namespace MineSweeper
         /// <param name="i">Vertical offset from Index</param>
         /// <param name="j">Horizontal offset from Index</param>
         /// <returns></returns>
-        public static bool InsideBoard(int i, int j, int tileIndex)
+        public bool InsideBoard(int i, int j, int tileIndex)
         {
             bool insideBoard = true;
             int index = tileIndex + j + Columns * i;
@@ -344,45 +323,45 @@ namespace MineSweeper
         }
 
 
-        /*
-         * 
-         * Attempt to store and restore class for use with Continue function
-         * Not working currently because of difficulties with static members.
-         * 
+
+        /// <summary>
+        /// Stores the all data on GameInstance to a JSON file
+        /// </summary>
         public void StoreAllData()
         {
             //Convert a copy of current instance to Json format
-            string output = JsonConvert.SerializeObject(DeepCopy());
-            
+            string output = JsonConvert.SerializeObject(GameInstance);
+
             //Save output to file
-
-
-
+            string path = "..\\..\\JSON\\GameInstance.json";
+            if(File.Exists(path)) File.WriteAllText(path, output);           
 
         }
         
+        /// <summary>
+        /// Restores GameInstance from a JSON file
+        /// </summary>
         public void RestoreAllData()
         {
             //Get data from file
-            string output = "Get from JSON file";
+            string path = "..\\..\\JSON\\GameInstance.json";
+            string output = File.ReadAllText(path);
 
             //Deserialize from JSON to .NET
-            BoardViewModel deserializedProduct = JsonConvert.DeserializeObject<BoardViewModel>(output);
-
-            //Put data into class
+            ContinueGame = false;
+            GameInstance = JsonConvert.DeserializeObject<BoardViewModel>(output);
 
         }
 
-        public BoardViewModel DeepCopy()
-        {
-            BoardViewModel copy = (BoardViewModel)this.MemberwiseClone();
-
-            //Problem with deep copying static members...
-
-            return copy;
-        }
-        */
 
         #endregion
+
+        #region Destructor
+        ~BoardViewModel()
+        {
+            StoreAllData();
+        }
+        #endregion
+        
     }
 }
