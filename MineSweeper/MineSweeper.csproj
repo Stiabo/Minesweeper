@@ -85,6 +85,9 @@
     <Compile Include="AttachedProperty\FrameworkElementAnimationAttachedProperties.cs" />
     <Compile Include="AttachedProperty\NoFrameHistory.cs" />
     <Compile Include="AttachedProperty\TextAttachedProperty.cs" />
+    <Compile Include="Controls\HighScore.xaml.cs">
+      <DependentUpon>HighScore.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TileItemControl.xaml.cs">
       <DependentUpon>TileItemControl.xaml</DependentUpon>
     </Compile>
@@ -119,9 +122,14 @@
     <Compile Include="ViewModel\GameBoard\BoardViewModel.cs" />
     <Compile Include="ViewModel\GameBoard\Design\BoardDesignModel.cs" />
     <Compile Include="ViewModel\GameBoard\Design\TileDesignModel.cs" />
+    <Compile Include="ViewModel\HighScore\HighScoreViewModel.cs" />
     <Compile Include="ViewModel\MenuViewModel.cs" />
     <Compile Include="ViewModel\GameBoard\TileViewModel.cs" />
     <Compile Include="ViewModel\Base\ViewModelLocator.cs" />
+    <Page Include="Controls\HighScore.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\TileItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

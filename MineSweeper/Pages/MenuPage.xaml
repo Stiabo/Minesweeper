@@ -35,6 +35,7 @@
                     Style="{StaticResource MenuButton}"
                     Content="-High Scores-"
                     Grid.Column="1"
+                    Command="{Binding HighScoreCommand}"
                     />
             <Button 
                     Style="{StaticResource MenuButton}"
@@ -43,6 +44,7 @@
                     />
         </StackPanel>
 
+        <!-- -->
         <Border Background="Transparent"
                 Panel.ZIndex="1"
                 Visibility="{Binding NewGameVisible, Converter={local:BooleanToVisiblityConverter},ConverterParameter=true}"
@@ -56,8 +58,25 @@
         <local:NewGame
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Panel.ZIndex="2"
+            Panel.ZIndex="3"
             Visibility="{Binding NewGameVisible, Converter={local:BooleanToVisiblityConverter},ConverterParameter=true}"    
+            />
+        
+        <Border Background="Transparent"
+                Panel.ZIndex="1"
+                Visibility="{Binding HighScoreVisible, Converter={local:BooleanToVisiblityConverter},ConverterParameter=true}"
+                >
+            <Border.InputBindings>
+                <MouseBinding MouseAction="LeftClick" 
+                              Command="{Binding HideNewGameCommand}" />
+            </Border.InputBindings>
+        </Border>
+        
+        <local:HighScore
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Panel.ZIndex="2"
+            Visibility="{Binding HighScoreVisible, Converter={local:BooleanToVisiblityConverter},ConverterParameter=true}"
             />
     </Grid>
 </local:BasePage>

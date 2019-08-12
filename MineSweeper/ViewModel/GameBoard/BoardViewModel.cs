@@ -119,8 +119,13 @@ namespace MineSweeper
         /// </summary>
         public static bool ContinueGame { get; set; }
 
-
+        /// <summary>
+        /// A single static Instance of the game
+        /// </summary>
         public static BoardViewModel GameInstance { get; set; }
+
+
+        public static string InstancePath { get; } = "..\\..\\JSON\\GameInstance.json";
 
         #endregion
 
@@ -333,8 +338,8 @@ namespace MineSweeper
             string output = JsonConvert.SerializeObject(GameInstance);
 
             //Save output to file
-            string path = "..\\..\\JSON\\GameInstance.json";
-            if(File.Exists(path)) File.WriteAllText(path, output);           
+            //string path = "..\\..\\JSON\\GameInstance.json";
+            if(File.Exists(InstancePath)) File.WriteAllText(InstancePath, output);           
 
         }
         
@@ -344,10 +349,10 @@ namespace MineSweeper
         public void RestoreAllData()
         {
             //Get data from file
-            string path = "..\\..\\JSON\\GameInstance.json";
-            if (File.Exists(path))
+            //string path = "..\\..\\JSON\\GameInstance.json";
+            if (File.Exists(InstancePath))
             {
-                string output = File.ReadAllText(path);
+                string output = File.ReadAllText(InstancePath);
 
                 //Deserialize from JSON to .NET
                 ContinueGame = false;

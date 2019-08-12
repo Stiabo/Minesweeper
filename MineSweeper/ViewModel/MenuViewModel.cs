@@ -16,6 +16,11 @@ namespace MineSweeper
         /// </summary>
         public bool NewGameVisible { get; set; }
 
+        /// <summary>
+        /// True if the High Score control should be visible
+        /// </summary>
+        public bool HighScoreVisible { get; set; }
+
         #endregion
 
         #region Public Commands
@@ -50,6 +55,11 @@ namespace MineSweeper
         /// </summary>
         public ICommand HideNewGameCommand { get; set; }
 
+        /// <summary>
+        /// Command to show the High Score menu
+        /// </summary>
+        public ICommand HighScoreCommand { get; set; }
+
         #endregion
 
         #region Constructor
@@ -69,6 +79,8 @@ namespace MineSweeper
             HideNewGameCommand = new RelayCommand(HideNewGame);
 
             ContinueCommand = new RelayCommand(ContinueButton);
+
+            HighScoreCommand = new RelayCommand(HighScoreButton);
         }
 
         #endregion
@@ -78,6 +90,7 @@ namespace MineSweeper
         private void HideNewGame()
         {
             NewGameVisible = false;
+            HighScoreVisible = false;
         }
 
         public void NewGameButton()
@@ -85,13 +98,20 @@ namespace MineSweeper
             NewGameVisible ^= true;
         }
 
+        public void HighScoreButton()
+        {
+            HighScoreVisible ^= true;
+        }
+
+        /// <summary>
+        /// Loads game from stored JSON file
+        /// </summary>
         public void ContinueButton()
         {
             BoardViewModel.ContinueGame = true;
             BoardViewModel.NewGame = false;
 
             IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Board);
-
         }
 
         /// <summary>
@@ -109,6 +129,8 @@ namespace MineSweeper
             await Task.Delay(1);
 
         }
+
+
 
         #endregion
     }
