@@ -30,6 +30,7 @@
                     <!-- Easy button -->
                     <Button Content="Easy"
                             Style="{StaticResource MenuButton}"
+                            Command="{Binding ShowEasyHighScoreCommand}"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
                             Grid.Column="0"
@@ -43,6 +44,7 @@
                     <!--Intermediate button-->
                     <Button Content="Intermediate"
                             Style="{StaticResource MenuButton}"
+                            Command="{Binding ShowMediumHighScoreCommand}"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
                             Grid.Column="1"
@@ -56,6 +58,7 @@
                     <!--Difficult button-->
                     <Button Content="Difficult"
                             Style="{StaticResource MenuButton}"
+                            Command="{Binding ShowHardHighScoreCommand}"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
                             Grid.Column="2"
@@ -71,7 +74,7 @@
                       
                       >
                     <TextBlock                            
-                               Text="100"
+                               Text="{Binding ScoreShowing}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center"
                                Padding="10"

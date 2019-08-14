@@ -18,8 +18,8 @@
                 <!--Right mouse click, i.e. Flagging -->
                 <Button.InputBindings>
                     <MouseBinding   MouseAction="RightClick"
-                                    Command="{Binding FlagCommand}"                                   
-                                    />
+                                     Command="{Binding FlagCommand}"                                      
+                                        />
                 </Button.InputBindings>
             </Button>
             <!-- Number under -->

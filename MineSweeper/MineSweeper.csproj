@@ -122,7 +122,6 @@
     <Compile Include="ViewModel\GameBoard\BoardViewModel.cs" />
     <Compile Include="ViewModel\GameBoard\Design\BoardDesignModel.cs" />
     <Compile Include="ViewModel\GameBoard\Design\TileDesignModel.cs" />
-    <Compile Include="ViewModel\HighScore\HighScoreViewModel.cs" />
     <Compile Include="ViewModel\MenuViewModel.cs" />
     <Compile Include="ViewModel\GameBoard\TileViewModel.cs" />
     <Compile Include="ViewModel\Base\ViewModelLocator.cs" />
