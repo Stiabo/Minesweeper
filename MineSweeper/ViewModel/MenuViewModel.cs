@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading.Tasks;
@@ -22,18 +24,7 @@ namespace MineSweeper
         /// </summary>
         public bool HighScoreVisible { get; set; }
 
-
-        /// <summary>
-        /// Scores
-        /// </summary>
-        public int EasyScore { get; set; }
-
-        public int IntermediateScore { get; set; }
-
-        public int DifficultScore { get; set; }
-
-        public int ScoreShowing { get; set; }
-
+        public static int ScoreShowing { get; set; }
 
         #endregion
 
@@ -74,9 +65,6 @@ namespace MineSweeper
         /// </summary>
         public ICommand HighScoreCommand { get; set; }
 
-        public ICommand ShowEasyHighScoreCommand { get; set; }
-        public ICommand ShowMediumHighScoreCommand { get; set; }
-        public ICommand ShowHardHighScoreCommand { get; set; }
 
         #endregion
 
@@ -87,9 +75,10 @@ namespace MineSweeper
         /// </summary>
         public MenuViewModel()
         {
-            EasyScore = 20;
-            IntermediateScore = 100;
-            DifficultScore = 200;
+            // Load Scores
+
+
+            
 
             // Create commands
             StartEasyCommand = new RelayCommand(async () => await StartAsync(Difficulty.Easy));
@@ -104,9 +93,6 @@ namespace MineSweeper
 
             HighScoreCommand = new RelayCommand(HighScoreButton);
 
-            ShowEasyHighScoreCommand = new RelayCommand(async () => await ShowHighScoreAsync(Difficulty.Easy));
-            ShowMediumHighScoreCommand = new RelayCommand(async () => await ShowHighScoreAsync(Difficulty.Medium));
-            ShowHardHighScoreCommand = new RelayCommand(async () => await ShowHighScoreAsync(Difficulty.Hard));
 
         }
 
@@ -158,31 +144,11 @@ namespace MineSweeper
         }
 
 
-        public async Task ShowHighScoreAsync(Difficulty difficulty)
-        {
-            switch (difficulty)
-            {
-                case Difficulty.Easy:
-                    ScoreShowing = EasyScore;
-                    break;
-                case Difficulty.Medium:
-                    ScoreShowing = IntermediateScore;
-                    break;
-                case Difficulty.Hard:
-                    ScoreShowing = DifficultScore;
-                    break;
-                default:
-                    ScoreShowing = 123;
-                    break;
-            }
-
-            await Task.Delay(1);
-        }
         #endregion
 
         #region Helper Methods
 
-
+        
 
         #endregion
 

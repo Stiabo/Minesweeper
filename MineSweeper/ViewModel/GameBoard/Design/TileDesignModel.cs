@@ -17,7 +17,8 @@
         /// </summary>
         public TileDesignModel()
         {
-            
+            Instance.Flagged = true;
+            Instance.Opened = false;
         }
 
         #endregion

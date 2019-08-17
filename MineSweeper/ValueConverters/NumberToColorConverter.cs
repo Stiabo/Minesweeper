@@ -6,7 +6,7 @@ using System.Windows.Media;
 namespace MineSweeper
 {
     /// <summary>
-    /// A converter that takes in a boolean and returns a <see cref="Visibility"/>
+    /// A converter that takes in a Mine number and converts it to the assosiated Color
     /// </summary>
     public class NumberToColorConverter : BaseValueConverter<NumberToColorConverter>
     {

@@ -11,7 +11,8 @@
             HorizontalAlignment="Center" 
             Background="{StaticResource BackgroundLightBrush}" 
             >
-        <Border BorderThickness="2"
+        <Border d:DataContext="{x:Static local:HighScoreViewModel.HighScoreInstance}"
+                BorderThickness="2"
                 BorderBrush="Black">
 
             <Grid>
@@ -29,57 +30,50 @@
                     </Grid.ColumnDefinitions>
                     <!-- Easy button -->
                     <Button Content="Easy"
-                            Style="{StaticResource MenuButton}"
+                            Style="{StaticResource HighScoreButton}"
                             Command="{Binding ShowEasyHighScoreCommand}"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
                             Grid.Column="0"
-                            Padding="0"
-                            Margin="0"
-                            Background="{StaticResource BackgroundLightBrush}"
                             BorderThickness="0 0 1 2"
-                            FontSize="15"
-                            BorderBrush="Black"
                             />
                     <!--Intermediate button-->
                     <Button Content="Intermediate"
-                            Style="{StaticResource MenuButton}"
+                            Style="{StaticResource HighScoreButton}"
                             Command="{Binding ShowMediumHighScoreCommand}"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
                             Grid.Column="1"
-                            Padding="0"
-                            Margin="0"
-                            Background="{StaticResource BackgroundLightBrush}"
                             BorderThickness="1 0 1 2"
-                            FontSize="15"
-                            BorderBrush="Black"
                     />
                     <!--Difficult button-->
                     <Button Content="Difficult"
-                            Style="{StaticResource MenuButton}"
+                            Style="{StaticResource HighScoreButton}"
                             Command="{Binding ShowHardHighScoreCommand}"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
                             Grid.Column="2"
-                            Padding="0"
-                            Margin="0"
-                            Background="{StaticResource BackgroundLightBrush}"
                             BorderThickness="1 0 0 2"
-                            FontSize="15"
-                            BorderBrush="Black"
                     />
                 </Grid>
-                <Grid Grid.Row="1"
-                      
-                      >
-                    <TextBlock                            
-                               Text="{Binding ScoreShowing}"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               Padding="10"
-                               FontFamily="{StaticResource FontAwesome}"
-                               FontSize="{StaticResource FontSizeXXLarge}"/>
+                <Grid Grid.Row="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Easy"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock                            
+                                   Text="{Binding ScoreShowing}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Padding="10"
+                                   FontFamily="{StaticResource FontAwesome}"
+                                   FontSize="{StaticResource FontSizeXXLarge}"
+                                   Grid.Row="1"/>
+                    </Grid>
                 </Grid>
                 
             </Grid>
