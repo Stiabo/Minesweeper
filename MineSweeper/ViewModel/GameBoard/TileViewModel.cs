@@ -140,10 +140,7 @@ namespace MineSweeper
                     
                     if(BoardViewModel.GameInstance.OpenedTiles == (BoardViewModel.GameInstance.Rows * BoardViewModel.GameInstance.Columns - BoardViewModel.GameInstance.StartingMines))
                     {
-                        //Game won
-                        BoardViewModel.GameInstance.Time.Stop();
-                        BoardViewModel.GameInstance.GameRunning = false;
-                        BoardViewModel.GameInstance.GameWon = true;
+                        GameWon();
                     }
                 }
 
@@ -201,10 +198,7 @@ namespace MineSweeper
 
                                 if (BoardViewModel.GameInstance.OpenedTiles == (BoardViewModel.GameInstance.Rows * BoardViewModel.GameInstance.Columns - BoardViewModel.GameInstance.StartingMines))
                                 {
-                                    //Game won
-                                    BoardViewModel.GameInstance.Time.Stop();
-                                    BoardViewModel.GameInstance.GameRunning = false;
-                                    BoardViewModel.GameInstance.GameWon = true;
+                                    GameWon();
                                 }
                                 
                             }                                               
@@ -214,6 +208,36 @@ namespace MineSweeper
             }
         }
 
+        #endregion
+
+        #region Helper functions
+
+        public void GameWon()
+        {
+            BoardViewModel.GameInstance.Time.Stop();
+            BoardViewModel.GameInstance.GameRunning = false;
+            BoardViewModel.GameInstance.GameWon = true;
+
+            SaveHighScore(BoardViewModel.GameDifficulty, BoardViewModel.GameInstance.DisplayTime);
+            MenuViewModel.HighScoreInstance.StoreHighScoreData();
+        }
+
+        public void SaveHighScore(Difficulty difficulty, int time)
+        {
+            switch (difficulty)
+            {
+                case Difficulty.Easy:
+                    if(time< MenuViewModel.HighScoreInstance.EasyScore) MenuViewModel.HighScoreInstance.EasyScore = time;                    
+                    break;
+                case Difficulty.Medium:
+                    if (time < MenuViewModel.HighScoreInstance.IntermediateScore) MenuViewModel.HighScoreInstance.IntermediateScore = time;
+                    break;
+                case Difficulty.Hard:
+                    if (time < MenuViewModel.HighScoreInstance.DifficultScore) MenuViewModel.HighScoreInstance.DifficultScore = time;
+                    break;
+            }
+
+        }
         #endregion
     }
 }

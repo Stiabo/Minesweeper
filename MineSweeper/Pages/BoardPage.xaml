@@ -9,11 +9,10 @@
       >
     <!--      DataContext="{x:Static local:BoardViewModel.GameInstance}" -->
     <Grid Background="{StaticResource GameBoardTopBrush}">
-        <!--DataContext="{x:Static local:BoardViewModel.GameInstance}"-->
         <Grid.RowDefinitions>
             <!-- Mines - Restart - Timer -->
             <RowDefinition Height="Auto"/>
-            <!-- Gameboard -->
+            <!-- Game board -->
             <RowDefinition Height="*"                           
                            />
         </Grid.RowDefinitions>

@@ -59,6 +59,11 @@ namespace MineSweeper
         public ICommand ContinueCommand { get; set; }
 
         /// <summary>
+        /// Command to Exit Game
+        /// </summary>
+        public ICommand ExitCommand { get; set; }
+
+        /// <summary>
         /// Hides the new game menu
         /// </summary>
         public ICommand HideNewGameCommand { get; set; }
@@ -81,21 +86,20 @@ namespace MineSweeper
             // Load Scores
             HighScoreInstance = new HighScoreViewModel();
 
+            HighScoreInstance.RestoreHighScoreData();
             
 
-            // Create commands
+            // Commands for buttons
             StartEasyCommand = new RelayCommand(async () => await StartAsync(Difficulty.Easy));
             StartIntermediateCommand = new RelayCommand(async () => await StartAsync(Difficulty.Medium));
             StartDifficultCommand = new RelayCommand(async () => await StartAsync(Difficulty.Hard));
-
-            NewGameCommand = new RelayCommand(NewGameButton);
-
-            HideNewGameCommand = new RelayCommand(HideNewGame);
-
             ContinueCommand = new RelayCommand(ContinueButton);
-
             HighScoreCommand = new RelayCommand(HighScoreButton);
+            ExitCommand = new RelayCommand(ExitButton);
 
+            // Commands for navigation in MenuPage
+            NewGameCommand = new RelayCommand(NewGameButton);
+            HideNewGameCommand = new RelayCommand(HideNewGame);
 
         }
 
@@ -128,6 +132,14 @@ namespace MineSweeper
             BoardViewModel.NewGame = false;
 
             IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Board);
+        }
+
+        /// <summary>
+        /// Exit game
+        /// </summary>
+        public void ExitButton()
+        {
+            Environment.Exit(0);
         }
 
         /// <summary>

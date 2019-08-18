@@ -12,7 +12,7 @@ namespace MineSweeper
         /// <summary>
         /// A single instance of the design model
         /// </summary>
-        public static BoardDesignModel Instance => new BoardDesignModel();
+        public static BoardDesignModel Instance { get; set; }
 
         #region Constructor
 
@@ -21,18 +21,22 @@ namespace MineSweeper
         /// </summary>
         public BoardDesignModel()
         {
-            Instance.Rows = 10;
-            Instance.Columns = 8;
+            Instance = new BoardDesignModel
+            {
+                Rows = 10,
+                Columns = 8,
 
-            Instance.Tiles = new List<TileViewModel>();
-            Instance.TilesHolder = new int[Rows + 2, Columns + 2];
+                Tiles = new List<TileViewModel>(),
+                TilesHolder = new int[Rows + 2, Columns + 2],
+                
 
+            };
             Instance.InitiateBlankBoard();
         }
 
-
+       
         #endregion
 
-        
+
     }
 }

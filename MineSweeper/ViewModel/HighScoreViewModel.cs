@@ -44,6 +44,7 @@ namespace MineSweeper
         public ICommand ShowMediumHighScoreCommand { get; set; }
         public ICommand ShowHardHighScoreCommand { get; set; }
 
+        
 
         #region Constructor
 
@@ -52,12 +53,6 @@ namespace MineSweeper
         /// </summary>
         public HighScoreViewModel()
         {
-            EasyScore = 10;
-            IntermediateScore = 20;
-            DifficultScore = 30;
-
-            ScoreShowing = 123;
-
 
             ShowEasyHighScoreCommand = new RelayCommand(async () => await ShowHighScoreAsync(Difficulty.Easy));
 
@@ -79,15 +74,35 @@ namespace MineSweeper
         {
             //Get data from file
             //string path = "..\\..\\JSON\\GameInstance.json";
+
             if (File.Exists(InstancePathHighScore))
             {
+                HighScoreViewModel JSONHighScoreData = new HighScoreViewModel();
                 string output = File.ReadAllText(InstancePathHighScore);
 
-                //Deserialize from JSON to .NET and put into HighScoreInstance
-                //HighScoreInstance = JsonConvert.DeserializeObject<HighScoreViewModel>(output);
+                //Deserialize from JSON to .NET and put into HighScoreData
+                JSONHighScoreData = JsonConvert.DeserializeObject<HighScoreViewModel>(output);
+
+                EasyScore = JSONHighScoreData.EasyScore;
+                IntermediateScore = JSONHighScoreData.IntermediateScore;
+                DifficultScore = JSONHighScoreData.DifficultScore;
+                ScoreShowing = JSONHighScoreData.ScoreShowing;
 
             }
 
+        }
+
+        /// <summary>
+        /// Stores the all data on GameInstance to a JSON file
+        /// </summary>
+        public void StoreHighScoreData()
+        {
+            //Convert a copy of current instance to Json format
+            string output = JsonConvert.SerializeObject(MenuViewModel.HighScoreInstance);
+
+            //Save output to file
+            //string path = "..\\..\\JSON\\GameInstance.json";
+            if (File.Exists(InstancePathHighScore)) File.WriteAllText(InstancePathHighScore, output);
         }
 
         #endregion
@@ -99,6 +114,7 @@ namespace MineSweeper
             {
                 case Difficulty.Easy:
                     ScoreShowing = EasyScore;
+                    //HighScoreData();
                     break;
                 case Difficulty.Medium:
                     ScoreShowing = IntermediateScore;

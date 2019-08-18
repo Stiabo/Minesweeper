@@ -17,30 +17,29 @@
                    FontSize="{StaticResource FontSizeXXLarge}"
                    Padding="0 30 0 0"
                    />
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel VerticalAlignment="Center" 
+                    HorizontalAlignment="Center"
+                    Grid.Column="1">
             
             <Button 
                     Style="{StaticResource MenuButton}"
-                    Content="New Game"
-                    Grid.Column="1"
+                    Content="New Game"                   
                     Command="{Binding NewGameCommand}"
                     />
             <Button 
                     Style="{StaticResource MenuButton}"
                     Content="Continue"
-                    Grid.Column="1"
                     Command="{Binding ContinueCommand}"
                     />
             <Button 
                     Style="{StaticResource MenuButton}"
-                    Content="-High Scores-"
-                    Grid.Column="1"
+                    Content="High Scores"
                     Command="{Binding HighScoreCommand}"
                     />
             <Button 
                     Style="{StaticResource MenuButton}"
-                    Content="-Exit-"
-                    Grid.Column="1"
+                    Content="Exit"
+                    Command="{Binding ExitCommand}"
                     />
         </StackPanel>
 
