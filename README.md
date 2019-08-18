@@ -1,5 +1,5 @@
 # Minesweeper
-Minesweeper game made in C#
+Minesweeper game made in C#/WPF
 
 As a "huge" minesweeper fan, it's implemented correctly, i.e.:  
 * First pressed tile always have 0 surrounding mines  
@@ -9,6 +9,5 @@ As a "huge" minesweeper fan, it's implemented correctly, i.e.:
  ![Image](https://github.com/Stiabo/Minesweeper/blob/master/Image/Minesweeper-example-screenshot.PNG "Example screenshot")
     
 TODO:  
-* High Score   
+* ~~High Score~~ 18-Aug-19
 * ~~Autosave/Continue feature~~ 11-Aug-19
-* Custom board size
