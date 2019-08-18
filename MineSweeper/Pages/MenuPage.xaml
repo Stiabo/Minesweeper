@@ -71,12 +71,12 @@
                               Command="{Binding HideNewGameCommand}" />
             </Border.InputBindings>
         </Border>
-        
-        <local:HighScore
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Panel.ZIndex="2"
-            Visibility="{Binding HighScoreVisible, Converter={local:BooleanToVisiblityConverter},ConverterParameter=true}"
-            />
+
+
+        <local:HighScore HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Panel.ZIndex="2"
+                         Visibility="{Binding HighScoreVisible, Converter={local:BooleanToVisiblityConverter},ConverterParameter=true}"/>
+ 
     </Grid>
 </local:BasePage>

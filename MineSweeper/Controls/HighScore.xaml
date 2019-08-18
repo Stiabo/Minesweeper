@@ -11,10 +11,10 @@
             HorizontalAlignment="Center" 
             Background="{StaticResource BackgroundLightBrush}" 
             >
-        <Border d:DataContext="{x:Static local:HighScoreViewModel.HighScoreInstance}"
-                BorderThickness="2"
-                BorderBrush="Black">
-
+        <Border BorderThickness="2"
+                BorderBrush="Black"
+                DataContext="{x:Static local:MenuViewModel.HighScoreInstance}">
+             
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -36,6 +36,7 @@
                             HorizontalAlignment="Center"
                             Grid.Column="0"
                             BorderThickness="0 0 1 2"
+                            IsEnabled="True"
                             />
                     <!--Intermediate button-->
                     <Button Content="Intermediate"

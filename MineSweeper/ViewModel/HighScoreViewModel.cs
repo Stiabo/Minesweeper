@@ -31,9 +31,11 @@ namespace MineSweeper
 
         public static string InstancePathHighScore { get; } = "..\\..\\JSON\\HighScore.json";
 
+        public int ScoreShowing { get; set; }
+
 
         //HighScoreInstance
-        public static HighScoreViewModel HighScoreInstance => new HighScoreViewModel();
+        //public static HighScoreViewModel HighScoreInstance => new HighScoreViewModel();
 
         #endregion
 
@@ -50,14 +52,17 @@ namespace MineSweeper
         /// </summary>
         public HighScoreViewModel()
         {
-            HighScoreInstance.EasyScore = 10;
-            HighScoreInstance.IntermediateScore = 20;
-            HighScoreInstance.DifficultScore = 30;
+            EasyScore = 10;
+            IntermediateScore = 20;
+            DifficultScore = 30;
 
-            MenuViewModel.ScoreShowing = 123;
+            ScoreShowing = 123;
+
 
             ShowEasyHighScoreCommand = new RelayCommand(async () => await ShowHighScoreAsync(Difficulty.Easy));
+
             ShowMediumHighScoreCommand = new RelayCommand(async () => await ShowHighScoreAsync(Difficulty.Medium));
+
             ShowHardHighScoreCommand = new RelayCommand(async () => await ShowHighScoreAsync(Difficulty.Hard));
 
         }
@@ -87,21 +92,21 @@ namespace MineSweeper
 
         #endregion
 
+
         public async Task ShowHighScoreAsync(Difficulty difficulty)
         {
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    MenuViewModel.ScoreShowing = HighScoreInstance.EasyScore;
+                    ScoreShowing = EasyScore;
                     break;
                 case Difficulty.Medium:
-                    MenuViewModel.ScoreShowing = HighScoreInstance.IntermediateScore;
+                    ScoreShowing = IntermediateScore;
                     break;
                 case Difficulty.Hard:
-                    MenuViewModel.ScoreShowing = HighScoreInstance.DifficultScore;
+                    ScoreShowing = DifficultScore;
                     break;
-                default:
-                    MenuViewModel.ScoreShowing = 123;
+                default:                    
                     break;
             }
 

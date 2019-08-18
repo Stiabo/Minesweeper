@@ -8,7 +8,7 @@ using System.Windows.Input;
 namespace MineSweeper
 {
     /// <summary>
-    /// View model for one induvidual tile
+    /// View model for one individual tile
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
     public class TileViewModel : BaseViewModel

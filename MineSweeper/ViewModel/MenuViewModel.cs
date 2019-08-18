@@ -24,7 +24,10 @@ namespace MineSweeper
         /// </summary>
         public bool HighScoreVisible { get; set; }
 
-        public static int ScoreShowing { get; set; }
+        
+
+        //HighScoreInstance
+        public static HighScoreViewModel HighScoreInstance { get; set; }
 
         #endregion
 
@@ -76,7 +79,7 @@ namespace MineSweeper
         public MenuViewModel()
         {
             // Load Scores
-
+            HighScoreInstance = new HighScoreViewModel();
 
             
 
