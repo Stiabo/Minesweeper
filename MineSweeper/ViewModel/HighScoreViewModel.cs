@@ -33,6 +33,10 @@ namespace MineSweeper
 
         public int ScoreShowing { get; set; }
 
+        public bool EasyScoreOpen { get; set; } = true;
+        public bool MediumScoreOpen { get; set; }
+        public bool HardScoreOpen { get; set; }
+
 
         //HighScoreInstance
         //public static HighScoreViewModel HighScoreInstance => new HighScoreViewModel();
@@ -86,7 +90,7 @@ namespace MineSweeper
                 EasyScore = JSONHighScoreData.EasyScore;
                 IntermediateScore = JSONHighScoreData.IntermediateScore;
                 DifficultScore = JSONHighScoreData.DifficultScore;
-                ScoreShowing = JSONHighScoreData.ScoreShowing;
+                ScoreShowing = EasyScore;
 
             }
 
@@ -105,6 +109,16 @@ namespace MineSweeper
             if (File.Exists(InstancePathHighScore)) File.WriteAllText(InstancePathHighScore, output);
         }
 
+        /// <summary>
+        /// Set all the tabs on the High Score menu to false
+        /// </summary>
+        public void CloseAllScoreTabs()
+        {
+            EasyScoreOpen = false;
+            MediumScoreOpen = false;
+            HardScoreOpen = false;
+        }
+
         #endregion
 
 
@@ -114,13 +128,18 @@ namespace MineSweeper
             {
                 case Difficulty.Easy:
                     ScoreShowing = EasyScore;
-                    //HighScoreData();
+                    CloseAllScoreTabs();
+                    EasyScoreOpen = true;
                     break;
                 case Difficulty.Medium:
                     ScoreShowing = IntermediateScore;
+                    CloseAllScoreTabs();
+                    MediumScoreOpen = true;
                     break;
                 case Difficulty.Hard:
                     ScoreShowing = DifficultScore;
+                    CloseAllScoreTabs();
+                    HardScoreOpen = true;
                     break;
                 default:                    
                     break;
@@ -129,5 +148,6 @@ namespace MineSweeper
             await Task.Delay(1);
         }
 
+        
     }
 }

@@ -12,7 +12,7 @@ namespace MineSweeper
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool)value ? (SolidColorBrush)Application.Current.FindResource("NumberBlueBrush") : (SolidColorBrush)Application.Current.FindResource("NumberRedBrush");
+            return (bool)value ? (SolidColorBrush)Application.Current.FindResource("TileSurfaceBrush") : (SolidColorBrush)Application.Current.FindResource("BackgroundLightBrush");
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
